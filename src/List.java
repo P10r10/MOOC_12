@@ -10,6 +10,10 @@ public class List<T> {
         index++;
     }
 
+    public T value(int i) {
+        return values[i];
+    }
+
     public boolean contains(T element) {
         return (indexOfElement(element) != -1);
     }
