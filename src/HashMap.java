@@ -24,10 +24,33 @@ public class HashMap<K, V> {
         return null;
     }
 
+    private List<Pair<K, V>> getListBasedOnKey(K key) {
+        int hashValue = Math.abs(key.hashCode() % values.length);
+        if (values[hashValue] == null) {
+            values[hashValue] = new List<>();
+        }
+
+        return values[hashValue];
+    }
+
+    private int getIndexOfKey(List<Pair<K, V>> myList, K key) {
+        for (int i = 0; i < myList.size(); i++) {
+            if (myList.value(i).getKey().equals(key)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
     public void add(K key, V value) {
-        int hashValue = Math.abs(key.hashCode() % this.values.length);
-        if (this.values[hashValue] == null) {
-            values[hashValue].add(new Pair<>(key, value));
+        List<Pair<K, V>> valuesAtIndex = getListBasedOnKey(key);
+        int index = getIndexOfKey(valuesAtIndex, key);
+
+        if (index < 0) {
+            valuesAtIndex.add(new Pair<>(key, value));
+            nextFreeIndex++;
+        } else {
+            valuesAtIndex.value(index).setValue(value);
         }
     }
 }
